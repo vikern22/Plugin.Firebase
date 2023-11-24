@@ -27,7 +27,7 @@ This is a wrapper library around the native Android and iOS Firebase Xamarin SDK
 4. Set `[GoogleService-Info.plist|google-services.json]` **build action** behaviour to `[Bundle Resource|GoogleServicesJson]` by Right clicking/Build Action.
 
 ### .NET MAUI support
-The new plugin version 1.2.0 now supports .NET MAUI applications with .NET 6 🚀 
+The new plugin version 1.2.0 now supports .NET MAUI applications with .NET 6 🚀
 
 To get started add the `GoogleService-Info.plist` and the `google-services.json` files to the root folder of your project and include them in the .csproj file like this:
 
@@ -37,7 +37,7 @@ To get started add the `GoogleService-Info.plist` and the `google-services.json`
 </ItemGroup>
 
 <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
-    <BundleResource Include="GoogleService-Info.plist" />
+<BundleResource Include="GoogleService-Info.plist" />
 </ItemGroup>
 ```
 
@@ -48,7 +48,8 @@ using Plugin.Firebase.Auth;
 
 #if IOS
 using Plugin.Firebase.Core.Platforms.iOS;
-#else
+#endif
+#if ANDROID
 using Plugin.Firebase.Core.Platforms.Android;
 #endif
 
@@ -72,7 +73,8 @@ public static class MauiProgram
                 CrossFirebase.Initialize();
                 return false;
             }));
-#else
+#endif
+#if ANDROID
             events.AddAndroid(android => android.OnCreate((activity, _) =>
                 CrossFirebase.Initialize(activity)));
 #endif
@@ -101,8 +103,8 @@ The plugin doesn't support Windows or Mac catalyst, so either remove their targe
 - For package versions prior to `Plugin.Firebase 2.0.7`, `Plugin.Firebase.Auth 2.0.5`, `Plugin.Firebase.Firestore 2.0.5`, `Plugin.Firebase.Functions 2.0.2` or `Plugin.Firebase.Storage 2.0.2` add the following `ItemGroup` to your `.csproj` file to prevent build errors:
 ```xml
 <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
-  <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="1.7.10" ExcludeAssets="build;buildTransitive" />
-  <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.7.10" ExcludeAssets="build;buildTransitive" />
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="1.7.10" ExcludeAssets="build;buildTransitive" />
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.7.10" ExcludeAssets="build;buildTransitive" />
 </ItemGroup>
 ```
 - For later versions add the following `ItemGroup` to your `.csproj` file to prevent build errors:
@@ -153,18 +155,18 @@ You are welcome to contribute to this project by creating a [Pull Request](https
 
 ## Release notes
 - Version 2.0.*
-  - see docs of separate nuget packages
+    - see docs of separate nuget packages
 - Version 2.0.0
-  - All features have been split into separate nuget packages 
-  - Cleaned up namespaces
-  - Enable usage of `DateTime` in Firestore #137
-  - Remove unnecessary dependency `Microsoft.CSharp` #143
-  - Fix fcm token refresh by adding `DidReceiveRegistrationToken` method to `FirebaseCloudMessagingImplementation`
+    - All features have been split into separate nuget packages
+    - Cleaned up namespaces
+    - Enable usage of `DateTime` in Firestore #137
+    - Remove unnecessary dependency `Microsoft.CSharp` #143
+    - Fix fcm token refresh by adding `DidReceiveRegistrationToken` method to `FirebaseCloudMessagingImplementation`
 - Version 1.3.0
-  - Get rid of newtonsoft.json, use system.text.json instead #119
-  - Add crashlytics implementation #120
-  - Add support for DateTime type to ToHashMap/Put extension #121
-  - Lazy google/facebook auth #122
-  - Return FIRAuthError.WrongPassword at android for wrong pw signin #117
-  - Calling completion in didReceiveNotificationResponse:completionHandler #106
-  - Big thanks to tranb3r for the contributions! :)
+    - Get rid of newtonsoft.json, use system.text.json instead #119
+    - Add crashlytics implementation #120
+    - Add support for DateTime type to ToHashMap/Put extension #121
+    - Lazy google/facebook auth #122
+    - Return FIRAuthError.WrongPassword at android for wrong pw signin #117
+    - Calling completion in didReceiveNotificationResponse:completionHandler #106
+    - Big thanks to tranb3r for the contributions! :)
